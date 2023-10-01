@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StatusBar } from 'react-native';
+import { View, Text, TextInput, Button, StatusBar, StyleSheet } from 'react-native';
 
 export default function App() {
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
-  const [measurementSystem, setMeasurementSystem] = useState('metric');
+  const [measurementSystem, setMeasurementSystem] = useState('metric'); // Default to metric
   const [bmi, setBMI] = useState('');
   const [result, setResult] = useState('');
 
@@ -35,26 +35,32 @@ export default function App() {
   };
 
   return (
-    <View style={{ padding: 20 }}>
+    <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <Text>Height:</Text>
-      <TextInput
-        placeholder={`Enter height (${measurementSystem === 'metric' ? 'cm' : 'inches'})`}
-        onChangeText={text => setHeight(text)}
-        keyboardType="numeric"
-      />
+      <Text style={styles.title}>BMI Calculator</Text>
 
-      <Text>Weight:</Text>
-      <TextInput
-        placeholder={`Enter weight (${measurementSystem === 'metric' ? 'kg' : 'lbs'})`}
-        onChangeText={text => setWeight(text)}
-        keyboardType="numeric"
-      />
+      <View style={styles.inputContainer}>
+        <Text style={styles.label}>Height:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder={`Enter height (${measurementSystem === 'metric' ? 'cm' : 'inches'})`}
+          onChangeText={text => setHeight(text)}
+          keyboardType="numeric"
+        />
+
+        <Text style={styles.label}>Weight:</Text>
+        <TextInput
+          style={styles.input}
+          placeholder={`Enter weight (${measurementSystem === 'metric' ? 'kg' : 'lbs'})`}
+          onChangeText={text => setWeight(text)}
+          keyboardType="numeric"
+        />
+      </View>
 
       <Button title="Calculate BMI" onPress={calculateBMI} />
 
-      <Text>BMI: {bmi}</Text>
-      <Text>Result: {result}</Text>
+      <Text style={styles.label}>BMI: {bmi}</Text>
+      <Text style={styles.result}>Result: {result}</Text>
 
       <Button
         title={`Switch to ${measurementSystem === 'metric' ? 'Imperial' : 'Metric'}`}
@@ -63,3 +69,37 @@ export default function App() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  result: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
